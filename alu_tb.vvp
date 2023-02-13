@@ -8,36 +8,36 @@
 :vpi_module "/usr/local/Cellar/icarus-verilog/11.0/lib/ivl/v2005_math.vpi";
 :vpi_module "/usr/local/Cellar/icarus-verilog/11.0/lib/ivl/va_math.vpi";
 :vpi_module "/usr/local/Cellar/icarus-verilog/11.0/lib/ivl/v2009.vpi";
-S_0x7f9968509310 .scope package, "$unit" "$unit" 2 1;
+S_0x7fa398d079a0 .scope package, "$unit" "$unit" 2 1;
  .timescale 0 0;
-S_0x7f9968509480 .scope module, "alu_tb" "alu_tb" 3 3;
+S_0x7fa398d05500 .scope module, "alu_tb" "alu_tb" 3 4;
  .timescale -9 -12;
-v0x7f9968519b70_0 .var "t_ALUControl", 1 0;
-v0x7f9968519c20_0 .net "t_ALUResult", 7 0, v0x7f9968519740_0;  1 drivers
-v0x7f9968519cb0_0 .var "t_SrcA", 7 0;
-v0x7f9968519d80_0 .var "t_SrcB", 7 0;
-v0x7f9968519e30_0 .net "t_Zero", 0 0, L_0x7f9968519f20;  1 drivers
-S_0x7f99685095f0 .scope module, "uut" "alu" 3 8, 4 1 0, S_0x7f9968509480;
+v0x7fa398d1dc40_0 .var "t_ALUControl", 1 0;
+v0x7fa398d1dcf0_0 .net "t_ALUResult", 7 0, v0x7fa398d1d810_0;  1 drivers
+v0x7fa398d1dd80_0 .var "t_SrcA", 7 0;
+v0x7fa398d1de50_0 .var "t_SrcB", 7 0;
+v0x7fa398d1df00_0 .net "t_Zero", 0 0, L_0x7fa398d1dff0;  1 drivers
+S_0x7fa398d05670 .scope module, "uut" "alu" 3 10, 4 1 0, S_0x7fa398d05500;
  .timescale -9 -12;
     .port_info 0 /INPUT 8 "SrcA";
     .port_info 1 /INPUT 8 "SrcB";
     .port_info 2 /INPUT 2 "ALUControl";
     .port_info 3 /OUTPUT 8 "ALUResult";
     .port_info 4 /OUTPUT 1 "Zero";
-v0x7f9968509760_0 .net "ALUControl", 1 0, v0x7f9968519b70_0;  1 drivers
-v0x7f9968519740_0 .var "ALUResult", 7 0;
-v0x7f99685197f0_0 .net "SrcA", 7 0, v0x7f9968519cb0_0;  1 drivers
-v0x7f99685198b0_0 .net "SrcB", 7 0, v0x7f9968519d80_0;  1 drivers
-v0x7f9968519960_0 .net "Zero", 0 0, L_0x7f9968519f20;  alias, 1 drivers
-L_0x7f9968763008 .functor BUFT 1, C4<00000000>, C4<0>, C4<0>, C4<0>;
-v0x7f9968519a40_0 .net/2u *"_ivl_0", 7 0, L_0x7f9968763008;  1 drivers
-E_0x7f9968507240 .event edge, v0x7f9968509760_0, v0x7f99685197f0_0, v0x7f99685198b0_0;
-L_0x7f9968519f20 .cmp/eq 8, v0x7f9968519740_0, L_0x7f9968763008;
-    .scope S_0x7f99685095f0;
+v0x7fa398d0bbf0_0 .net "ALUControl", 1 0, v0x7fa398d1dc40_0;  1 drivers
+v0x7fa398d1d810_0 .var "ALUResult", 7 0;
+v0x7fa398d1d8c0_0 .net "SrcA", 7 0, v0x7fa398d1dd80_0;  1 drivers
+v0x7fa398d1d980_0 .net "SrcB", 7 0, v0x7fa398d1de50_0;  1 drivers
+v0x7fa398d1da30_0 .net "Zero", 0 0, L_0x7fa398d1dff0;  alias, 1 drivers
+L_0x7fa398e63008 .functor BUFT 1, C4<00000000>, C4<0>, C4<0>, C4<0>;
+v0x7fa398d1db10_0 .net/2u *"_ivl_0", 7 0, L_0x7fa398e63008;  1 drivers
+E_0x7fa398d087c0 .event edge, v0x7fa398d0bbf0_0, v0x7fa398d1d8c0_0, v0x7fa398d1d980_0;
+L_0x7fa398d1dff0 .cmp/eq 8, v0x7fa398d1d810_0, L_0x7fa398e63008;
+    .scope S_0x7fa398d05670;
 T_0 ;
-Ewait_0 .event/or E_0x7f9968507240, E_0x0;
+Ewait_0 .event/or E_0x7fa398d087c0, E_0x0;
     %wait Ewait_0;
-    %load/vec4 v0x7f9968509760_0;
+    %load/vec4 v0x7fa398d0bbf0_0;
     %dup/vec4;
     %pushi/vec4 0, 0, 2;
     %cmp/u;
@@ -55,59 +55,61 @@ Ewait_0 .event/or E_0x7f9968507240, E_0x0;
     %cmp/u;
     %jmp/1 T_0.3, 6;
     %pushi/vec4 255, 255, 8;
-    %store/vec4 v0x7f9968519740_0, 0, 8;
+    %store/vec4 v0x7fa398d1d810_0, 0, 8;
     %jmp T_0.5;
 T_0.0 ;
-    %load/vec4 v0x7f99685197f0_0;
-    %load/vec4 v0x7f99685198b0_0;
+    %load/vec4 v0x7fa398d1d8c0_0;
+    %load/vec4 v0x7fa398d1d980_0;
     %and;
-    %store/vec4 v0x7f9968519740_0, 0, 8;
+    %store/vec4 v0x7fa398d1d810_0, 0, 8;
     %jmp T_0.5;
 T_0.1 ;
-    %load/vec4 v0x7f99685197f0_0;
-    %load/vec4 v0x7f99685198b0_0;
+    %load/vec4 v0x7fa398d1d8c0_0;
+    %load/vec4 v0x7fa398d1d980_0;
     %or;
-    %store/vec4 v0x7f9968519740_0, 0, 8;
+    %store/vec4 v0x7fa398d1d810_0, 0, 8;
     %jmp T_0.5;
 T_0.2 ;
-    %load/vec4 v0x7f99685197f0_0;
-    %load/vec4 v0x7f99685198b0_0;
+    %load/vec4 v0x7fa398d1d8c0_0;
+    %load/vec4 v0x7fa398d1d980_0;
     %add;
-    %store/vec4 v0x7f9968519740_0, 0, 8;
+    %store/vec4 v0x7fa398d1d810_0, 0, 8;
     %jmp T_0.5;
 T_0.3 ;
-    %load/vec4 v0x7f99685197f0_0;
-    %load/vec4 v0x7f99685198b0_0;
+    %load/vec4 v0x7fa398d1d8c0_0;
+    %load/vec4 v0x7fa398d1d980_0;
     %sub;
-    %store/vec4 v0x7f9968519740_0, 0, 8;
+    %store/vec4 v0x7fa398d1d810_0, 0, 8;
     %jmp T_0.5;
 T_0.5 ;
     %pop/vec4 1;
     %jmp T_0;
     .thread T_0, $push;
-    .scope S_0x7f9968509480;
+    .scope S_0x7fa398d05500;
 T_1 ;
+    %vpi_call/w 3 13 "$dumpfile", "alu_tb.vcd" {0 0 0};
+    %vpi_call/w 3 14 "$dumpvars", 32'sb00000000000000000000000000000000, S_0x7fa398d05500 {0 0 0};
     %pushi/vec4 5, 0, 8;
-    %store/vec4 v0x7f9968519cb0_0, 0, 8;
+    %store/vec4 v0x7fa398d1dd80_0, 0, 8;
     %pushi/vec4 10, 0, 8;
-    %store/vec4 v0x7f9968519d80_0, 0, 8;
+    %store/vec4 v0x7fa398d1de50_0, 0, 8;
     %pushi/vec4 0, 0, 2;
-    %store/vec4 v0x7f9968519b70_0, 0, 2;
-    %delay 10000, 0;
+    %store/vec4 v0x7fa398d1dc40_0, 0, 2;
+    %delay 20000, 0;
     %pushi/vec4 1, 0, 2;
-    %store/vec4 v0x7f9968519b70_0, 0, 2;
-    %delay 10000, 0;
+    %store/vec4 v0x7fa398d1dc40_0, 0, 2;
+    %delay 20000, 0;
     %pushi/vec4 2, 0, 2;
-    %store/vec4 v0x7f9968519b70_0, 0, 2;
-    %delay 10000, 0;
+    %store/vec4 v0x7fa398d1dc40_0, 0, 2;
+    %delay 20000, 0;
     %pushi/vec4 3, 0, 2;
-    %store/vec4 v0x7f9968519b70_0, 0, 2;
-    %delay 10000, 0;
+    %store/vec4 v0x7fa398d1dc40_0, 0, 2;
+    %delay 20000, 0;
     %end;
     .thread T_1;
-    .scope S_0x7f9968509480;
+    .scope S_0x7fa398d05500;
 T_2 ;
-    %vpi_call/w 3 20 "$monitor", "t_ALUControl = %b t_SrcA = %h t_SrcB = %h t_ALUResult = %h t_Zero = %d", v0x7f9968519b70_0, v0x7f9968519cb0_0, v0x7f9968519d80_0, v0x7f9968519c20_0, v0x7f9968519e30_0 {0 0 0};
+    %vpi_call/w 3 24 "$monitor", "t_ALUControl = %b t_SrcA = %h t_SrcB = %h t_ALUResult = %h t_Zero = %d", v0x7fa398d1dc40_0, v0x7fa398d1dd80_0, v0x7fa398d1de50_0, v0x7fa398d1dcf0_0, v0x7fa398d1df00_0 {0 0 0};
     %end;
     .thread T_2;
 # The file index is used to find the file name in the following table.
