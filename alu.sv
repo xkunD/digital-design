@@ -1,15 +1,18 @@
-module alu(input logic [7:0] a, 
-            input logic [7:0] b,
+module alu(input logic [7:0] SrcA,
+            input logic [7:0] SrcB,
+            input logic [1:0] ALUControl,
             output logic [7:0] ALUResult,
-            input logic [1:0] ALUControl); 
+            output logic Zero);
+
 always_comb
-case(ALUControl)
-3'b000 : ALUResult = a & b; // bitwise a AND b
-3'b001 : ALUResult = a | b; // bitwise a OR b
-3'b010 : ALUResult = a + b; // addition a + b
-3'b100 : ALUResult = a & ~b; // bitwise a AND (NOT b) 
-3'b101 : ALUResult = a | ~b; // bitwise a OR (NOT b) 
-3'b110 : ALUResult = a - b; // subtraction a - b
+case (ALUControl)
+2'b00 : ALUResult = SrcA & SrcB;
+2'b01 : ALUResult = SrcA | SrcB;
+2'b10 : ALUResult = SrcA + SrcB;
+2'b11 : ALUResult = SrcA - SrcB;
 default : ALUResult = 8'bx;
 endcase
+
+assign Zero = (ALUResult == 8'b0);
+
 endmodule
