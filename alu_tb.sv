@@ -21,7 +21,6 @@ initial begin
 end
 
 initial begin // Response monitor
-$monitor ("t_ALUControl = %b t_SrcA = %h t_SrcB = %h t_ALUResult = %b t_Zero = %d",
-        t_ALUControl, t_SrcA, t_SrcB, t_ALUResult, t_Zero);
+    $monitor ("t_ALUControl = %b t_SrcA = %h t_SrcB = %h t_ALUResult = %b t_Zero = %d",t_ALUControl, t_SrcA, t_SrcB, t_ALUResult, t_Zero);
 end
 endmodule
