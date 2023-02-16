@@ -1,10 +1,14 @@
-module reg_file_example(input logic [3:0] RA1, RA2, WA, input logic [7:0] data_in,
-input logic clk, reset, write_enable,
-output logic [7:0] data_out1, data_out2); 
+module reg_file_example(input logic [3:0] RA1, RA2, WA, 
+                        input logic [7:0] ALUResult,
+                        input logic clk, write_enable,
+                        output logic [7:0] RD1, RD2, cpu_out); 
 logic [7:0] rf [0:15];
-assign data_out1 = rf[RA1]; 
-assign data_out2 = rf[RA2]; 
-always_ff @ (posedge clk)
-if (write_enable)
-rf[WA] <= data_in;
+assign RD1 = rf[RA1]; 
+assign RD2 = rf[RA2]; 
+assign cpu_out = rf[15];
+assign rf[4'b0] = 8'b0;
+
+always_ff @(posedge clk) 
+if (write_enable) 
+rf[WA] <= ALUResult;
 endmodule

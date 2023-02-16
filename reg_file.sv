@@ -7,19 +7,18 @@ input logic clk,
 input logic write_enable,
 output logic [7:0] RD1,
 output logic [7:0] RD2,
-output logic [7:0] cpu_out7_0
+output logic [7:0] cpu_out
 );
-
 logic [7:0] rf [0:15];
 
 assign RD1 = rf[RA1];
 assign RD2 = rf[RA2];
-assign cpu_out7_0 = rf[15];
+assign cpu_out = rf[15];
+assign rf[0] = 8'b0;
 
 always_ff @(posedge clk) 
 if (write_enable) 
 rf[WA] <= ALUResult;
-assign rf[0] = 8'b0;
 endmodule
 
 
