@@ -12,20 +12,14 @@ output logic [7:0] cpu_out7_0
 
 logic [7:0] rf [0:15];
 
-assign rf[0] = 8'b0;
-
 assign RD1 = rf[RA1];
 assign RD2 = rf[RA2];
 assign cpu_out7_0 = rf[15];
 
-
-always_ff @(posedge clk) begin
-    const int index = WA;
-    if (write_enable && (index > 0)) begin
-        rf[index] <= ALUResult;
-    end
-end
-
+always_ff @(posedge clk) 
+if (write_enable) 
+rf[WA] <= ALUResult;
+assign rf[0] = 8'b0;
 endmodule
 
 

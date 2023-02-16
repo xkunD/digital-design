@@ -11,11 +11,11 @@ reg_file reg_file_inst (t_RA1, t_RA2, t_WA, t_ALUResult, t_CLK, t_write_enable, 
 
 initial begin
     // Stimulus generator
-    t_RA1 = 1;
-    t_RA2 = 2;
-    t_ALUResult = 8'b00010101;
-    t_WA = 1;
-    t_write_enable = 1;
+    t_RA1 = 4'b0001;
+    t_RA2 = 4'b0010;
+    t_ALUResult = 8'b00000011;
+    t_WA = 4'b1010;
+    t_write_enable = 1'b1;
     #10 t_CLK = 1;
     #10 t_CLK = 0;
     #10 t_RA1 = 3;
