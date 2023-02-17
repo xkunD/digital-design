@@ -3,6 +3,32 @@
 \usepackage{amsmath}
 \usepackage{geometry}
 \usepackage{graphicx} % Required for inserting images
+\usepackage{listings}
+\usepackage{color}
+\usepackage{verbatim} 
+\usepackage{fancyvrb}
+\usepackage{fvextra}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Verilog,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
 
 \title{Digital Lab Report}
 \author{Xiaokun Du}
@@ -14,10 +40,71 @@
 \maketitle
 
 
-\section{Introduction}
+\section{Arithmetic logic unit (ALU)}
 
-here's some content for the document.
-\[x + 3 = x ^ {2+x}\]
+Write, as a SystemVerilog module with the name alu, a behavioural description of an arithmetic logic unit. \\
+The data inputs, SrcA and SrcB, and the data output, ALUResult, are 8-bit vectors. The ALUControl input is a 2-bit vector. \\
+The 1-bit output flag Zero = 1 if ALUResult == 0, else Zero = 0. The ALU carries out bitwise logical operations, and addition and subtraction operations, as specified in the table below.
+\subsection*{Module Code}
+\begin{lstlisting}
+module alu(input logic [7:0] SrcA,
+            input logic [7:0] SrcB,
+            input logic [1:0] ALUControl,
+            output logic [7:0] ALUResult,
+            output logic Zero);
+always_comb
+case (ALUControl)
+2'b00 : ALUResult = SrcA & SrcB;
+2'b01 : ALUResult = SrcA | SrcB;
+2'b10 : ALUResult = SrcA + SrcB;
+2'b11 : ALUResult = SrcA - SrcB;
+default : ALUResult = 8'bx;
+endcase
 
+assign Zero = (ALUResult == 8'b0);
+endmodule
+\end{lstlisting}
+
+\subsection*{Testbench Code}
+\begin{lstlisting}
+`timescale 1ns/1ps 
+`include "alu.sv"
+
+module alu_tb;
+logic [7:0] t_SrcA, t_SrcB;
+logic [1:0] t_ALUControl;
+logic [7:0] t_ALUResult;
+logic t_Zero;
+
+alu uut (t_SrcA, t_SrcB, t_ALUControl, t_ALUResult, t_Zero);
+
+initial begin
+    $dumpfile("alu_tb.vcd"); 
+    $dumpvars(0, alu_tb);
+    // Stimulus generator
+    t_SrcA = 8'h05; t_SrcB = 8'h0A;
+    t_ALUControl = 2'b00; #20;
+    t_ALUControl = 2'b01; #20;
+    t_ALUControl = 2'b10; #20;
+    t_ALUControl = 2'b11; #20;
+end
+
+initial begin // Response monitor
+    $monitor ("t_ALUControl = %b t_SrcA = %h t_SrcB = %h t_ALUResult = %b t_Zero = %d",t_ALUControl, t_SrcA, t_SrcB, t_ALUResult, t_Zero);
+end
+endmodule
+
+\end{lstlisting}
+
+\subsection*{Simulations}
+The simulation result using Icarus Verilog is as following:
+\begin{Verbatim}
+VCD info: dumpfile alu_tb.vcd opened for output.
+t_ALUControl = 00 t_SrcA = 05 t_SrcB = 0a t_ALUResult = 00000000 t_Zero = 1
+t_ALUControl = 01 t_SrcA = 05 t_SrcB = 0a t_ALUResult = 00001111 t_Zero = 0
+t_ALUControl = 10 t_SrcA = 05 t_SrcB = 0a t_ALUResult = 00001111 t_Zero = 0
+t_ALUControl = 11 t_SrcA = 05 t_SrcB = 0a t_ALUResult = 11111011 t_Zero = 0
+\end{Verbatim}
+The simulation results using GTKWave is as following:
 
 \end{document}
