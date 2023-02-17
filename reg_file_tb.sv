@@ -1,44 +1,33 @@
-`timescale 1ns/1ps
+`timescale 1ps/1ps 
 `include "reg_file.sv"
 
 module reg_file_tb;
+logic [3:0] RA1, RA2, WA;
+logic clk, write_enable;
+logic [7:0] ALUResult, RD1, RD2, cpu_out;
+reg_file dut (RA1, RA2, WA, ALUResult, clk, write_enable, RD1, RD2, cpu_out);
 
-logic [3:0] t_RA1, t_RA2, t_WA;
-logic [7:0] ALUResult;
-logic t_clk, t_write_enable;
-logic [7:0] t_RD1, t_RD2, t_cpu_out;
-
-reg_file R1 (t_RA1, t_RA2, t_WA, ALUResult, t_clk,  t_write_enable, t_RD1, t_RD2, t_cpu_out);
-
-initial begin
-  t_RA1 = 4'b0001;
-  t_RA2 = 4'b0010;
-  t_WA = 4'b1010;
-  ALUResult = 8'b00000011;
-  t_clk = 1'b1;
-  //t_reset = 1'b0;
-  t_write_enable = 1'b1;
-  #10
-  t_RA1 = 4'b0100;
-  t_RA2 = 4'b1000;
-  t_WA = 4'b1000;
-  ALUResult = 8'b00100100;
-  t_clk = 1'b0;
-  //t_reset = 1'b1;
-  t_write_enable = 1'b1;
-  #10
-  t_RA1 = 4'b1010;
-  t_RA2 = 4'b0001;
-  t_WA = 4'b1111;
-  ALUResult = 8'b11110001;
-  //t_reset = 1'b0;
-  t_clk = 1'b0;
-  t_write_enable = 1'b1;
+initial begin // Generate clock signal with 20 ns period
+clk = 0;
+forever #10 clk = ~clk;
 end
 
-initial begin
+initial begin // Apply stimulus 
+$dumpfile("reg_file_tb.vcd");
+$dumpvars(0, reg_file_tb);
+RA1 = 1; RA2 = 2; WA = 0; ALUResult = 5; write_enable = 0; 
+#10 WA=0; //RESET = 0;
+#15 write_enable = 1;
+#20 WA = 1; ALUResult = 7;
+#20 WA = 5; ALUResult = 13;
+#20 write_enable = 0;
+#20 RA2 = 5;
+#30;
+$finish; // This system tasks ends the simulation 
+end
+
+initial begin // Response monitor
   $monitor ("t_RA1 = %d t_RA2 = %d t_WA = %d ALUResult = %d t_clk = %d t_write_enable = %d t_RD1 = %d t_RD2 = %d",
-            t_RA1, t_RA2, t_WA, ALUResult, t_clk,  t_write_enable, t_RD1, t_RD2);
+            RA1, RA2, WA, ALUResult, clk,  write_enable, RD1, RD2);
 end
-
 endmodule
