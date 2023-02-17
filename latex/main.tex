@@ -1,6 +1,6 @@
 
 \documentclass{article}
-\usepackage{amsmath}
+% \usepackage{amsmath}
 \usepackage{geometry}
 \usepackage{graphicx} % Required for inserting images
 \usepackage{listings}
@@ -8,6 +8,8 @@
 \usepackage{verbatim} 
 \usepackage{fancyvrb}
 \usepackage{fvextra}
+
+\graphicspath{ {./gtkwave/} }
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -45,7 +47,7 @@
 Write, as a SystemVerilog module with the name alu, a behavioural description of an arithmetic logic unit. \\
 The data inputs, SrcA and SrcB, and the data output, ALUResult, are 8-bit vectors. The ALUControl input is a 2-bit vector. \\
 The 1-bit output flag Zero = 1 if ALUResult == 0, else Zero = 0. The ALU carries out bitwise logical operations, and addition and subtraction operations, as specified in the table below.
-\subsection*{Module Code}
+\subsection{Module Code}
 \begin{lstlisting}
 module alu(input logic [7:0] SrcA,
             input logic [7:0] SrcB,
@@ -65,7 +67,7 @@ assign Zero = (ALUResult == 8'b0);
 endmodule
 \end{lstlisting}
 
-\subsection*{Testbench Code}
+\subsection{Testbench Code}
 \begin{lstlisting}
 `timescale 1ns/1ps 
 `include "alu.sv"
@@ -96,7 +98,7 @@ endmodule
 
 \end{lstlisting}
 
-\subsection*{Simulations}
+\subsection{Simulations}
 The simulation result using Icarus Verilog is as following:
 \begin{Verbatim}
 VCD info: dumpfile alu_tb.vcd opened for output.
@@ -105,6 +107,36 @@ t_ALUControl = 01 t_SrcA = 05 t_SrcB = 0a t_ALUResult = 00001111 t_Zero = 0
 t_ALUControl = 10 t_SrcA = 05 t_SrcB = 0a t_ALUResult = 00001111 t_Zero = 0
 t_ALUControl = 11 t_SrcA = 05 t_SrcB = 0a t_ALUResult = 11111011 t_Zero = 0
 \end{Verbatim}
-The simulation results using GTKWave is as following:
+The simulation results using GTKWave is as following:\vspace{5pt}\\
+\includegraphics[width=\textwidth]{alu.png}
+
+\newpage
+\section{Register File}
+The register file has sixteen 8-bit registers. The register with address 0 always contains the value 0. The other 15 registers can have values written into them through the WD3 port.\\
+The contents of any two of the registers (with addresses specifiedby the 4-bit inputs RA1 and RA) are continuously output as RD1 and RD2. On the positive edge of the clock, if write\_enable is asserted, and A3 > 0, the input ALUResult is written into the register at address A3 through the WD3 port. The module includes an output port cpu\_out, which continuously outputs the contents of the register at address 15. This will form the main external output of the microprocessor.
+\subsection{Module Code}
+\begin{lstlisting}
+    module reg_file(input logic [3:0] RA1, RA2, WA, 
+                            input logic [7:0] ALUResult,
+                            input logic clk, write_enable,
+                            output logic [7:0] RD1, RD2, cpu_out); 
+    logic [7:0] rf [0:15];
+    logic [3:0] zero;
+
+    assign RD1 = rf[RA1]; 
+    assign RD2 = rf[RA2]; 
+    assign cpu_out = rf[15];
+
+    always_ff @(posedge clk) 
+    if (write_enable && WA > 0) 
+        rf[WA] = ALUResult;
+
+    endmodule
+\end{lstlisting}
+\subsection{Testbench Code}
+\begin{lstlisting}
+    // waiting for upload
+\end{lstlisting}
+
 
 \end{document}
