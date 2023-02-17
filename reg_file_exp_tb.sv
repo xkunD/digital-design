@@ -21,6 +21,7 @@ RA1 = 1; RA2 = 2; WA = 0; data_in = 5; write_enable = 0; reset = 1;
 #20 write_enable = 0;
 #20 RA2 = 5;
 #30;
+
 $finish; // This system tasks ends the simulation 
 end
 initial begin // Response monitor

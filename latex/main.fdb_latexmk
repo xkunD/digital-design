@@ -1,6 +1,6 @@
 # Fdb version 3
-["pdflatex"] 1676663294 "/Users/duxiaokun/Documents/cw-ucl/digital-design/latex/main.tex" "main.pdf" "main" 1676663295
-  "/Users/duxiaokun/Documents/cw-ucl/digital-design/latex/main.tex" 1676663293 8272 ed25ea1936623bba024ece432403d5bb ""
+["pdflatex"] 1676664087 "/Users/duxiaokun/Documents/cw-ucl/digital-design/latex/main.tex" "main.pdf" "main" 1676664088
+  "/Users/duxiaokun/Documents/cw-ucl/digital-design/latex/main.tex" 1676664086 9275 b9fe5f49127afc58fc0d03a86d06d2f1 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/jknappen/ec/tctt0900.tfm" 1136768653 1536 bda3e6bf9784a4cc572c754e0c3eeb00 ""
@@ -64,9 +64,9 @@
   "/usr/local/texlive/2022/texmf-var/web2c/pdftex/pdflatex.fmt" 1676377751 2826443 3ab2e83e4d3a52ad81473807bfb43177 ""
   "/usr/local/texlive/2022/texmf.cnf" 1647878952 577 209b46be99c9075fd74d4c0369380e8c ""
   "gtkwave//alu.png" 1676313907 93249 504c52143ad34e30a0cca897bbb74337 ""
-  "gtkwave//reg_file.png" 1676663198 116953 177f0fda8a27818b9ed0137a68b23fa8 ""
-  "main.aux" 1676663295 878 2cafedc021631ef93b9f9670c9a2a10c "pdflatex"
-  "main.tex" 1676663293 8272 ed25ea1936623bba024ece432403d5bb ""
+  "gtkwave//reg_file.png" 1676663374 137121 1bea95a840acbf6d575bd617c5ada0ac ""
+  "main.aux" 1676664088 1105 0b6ef5b0ed24fec4d7fa6c61d8e8a7e8 "pdflatex"
+  "main.tex" 1676664086 9275 b9fe5f49127afc58fc0d03a86d06d2f1 ""
   (generated)
   "main.aux"
   "main.log"

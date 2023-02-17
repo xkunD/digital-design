@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.14)  17 FEB 2023 19:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.14)  17 FEB 2023 20:01
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -251,25 +251,25 @@ File: ./gtkwave//alu.png Graphic file (type png)
 Package pdftex.def Info: ./gtkwave//alu.png  used on input line 111.
 (pdftex.def)             Requested size: 430.00462pt x 70.92886pt.
  [2 <./gtkwave//alu.png>] [3]
-<./gtkwave//reg_file.png, id=22, 892.33376pt x 238.8925pt>
+<./gtkwave//reg_file.png, id=22, 1100.11pt x 235.88126pt>
 File: ./gtkwave//reg_file.png Graphic file (type png)
 <use ./gtkwave//reg_file.png>
 Package pdftex.def Info: ./gtkwave//reg_file.png  used on input line 202.
-(pdftex.def)             Requested size: 430.00462pt x 115.1191pt.
- [4] [5 <./gtkwave//reg_file.png>] (./main.aux) ) 
+(pdftex.def)             Requested size: 430.00462pt x 92.19847pt.
+ [4] [5 <./gtkwave//reg_file.png>] [6] (./main.aux) ) 
 Here is how much of TeX's memory you used:
- 5446 strings out of 478268
- 86152 string characters out of 5846347
+ 5454 strings out of 478268
+ 86227 string characters out of 5846347
  628142 words of memory out of 5000000
- 23614 multiletter control sequences out of 15000+600000
+ 23622 multiletter control sequences out of 15000+600000
  474305 words of font info for 46 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,6n,62p,563b,1651s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sftt0900.pfb>
-Output written on main.pdf (5 pages, 294617 bytes).
+Output written on main.pdf (6 pages, 305942 bytes).
 PDF statistics:
- 66 PDF objects out of 1000 (max. 8388607)
- 38 compressed objects within 1 object stream
+ 69 PDF objects out of 1000 (max. 8388607)
+ 40 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -145,24 +145,24 @@ The contents of any two of the registers (with addresses specifiedby the 4-bit i
     reg_file dut (RA1, RA2, WA, ALUResult, clk, write_enable, RD1, RD2, cpu_out);
     
     initial begin // Generate clock signal with 20 ns period
-    clk = 0;
-    forever #10 clk = ~clk;
+        clk = 0;
+        forever #10 clk = ~clk;
     end
     
     initial begin // Apply stimulus 
-    $dumpfile("reg_file_tb.vcd");
-    $dumpvars(0, reg_file_tb);
-    RA1 = 1; RA2 = 2; WA = 0; ALUResult = 5; write_enable = 0; 
-    #15 write_enable = 1;
-    #20 WA = 1; ALUResult = 7;
-    #20 WA = 5; ALUResult = 13;
-    #20 write_enable = 0;
-    #10 RA2 = 5;
-    #10;
-    #10 WA = 15; write_enable = 1;
-    #10 ALUResult = 15;
-    #30;
-    $finish; // This system tasks ends the simulation 
+        $dumpfile("reg_file_tb.vcd");
+        $dumpvars(0, reg_file_tb);
+        RA1 = 1; RA2 = 2; WA = 0; ALUResult = 5; write_enable = 0; 
+        #15 write_enable = 1;
+        #20 WA = 1; ALUResult = 7;
+        #20 WA = 5; ALUResult = 13;
+        #20 write_enable = 0;
+        #10 RA2 = 5;
+        #10;
+        #10 WA = 15; write_enable = 1;
+        #10 ALUResult = 15;
+        #30;
+        $finish; // This system tasks ends the simulation 
     end
     
     initial begin // Response monitor
@@ -200,4 +200,31 @@ t = 140, RA1 =  1 RA2 =  5 WA = 15 ALUResult =  15 clk = 0 write_enable = 1 RD1 
 \end{Verbatim}
 The simulation results using GTKWave is as following:\vspace{5pt}\\
 \includegraphics[width=\textwidth]{reg_file.png}
+
+\newpage
+\section{Combining the ALU and register file}
+Write a SystemVerilog module with the name reg\_file\_alu, implementing the combined ALU and register file as shown above.
+Include a 2-to-1 multiplexer, which selects either the RD2 output from the register file, or an external input (immediate) to be input to the ALU input port SrcB.
+
+\subsection{Module Code}
+\begin{lstlisting}
+`include "reg_file.sv", "alu.sv"
+
+module reg_file_alu(input logic [3:0] RA1, RA2, WA,
+                    input logic [7:0] immediate,
+                    input logic [1:0] ALUControl,
+                    input logic write_enable, ALUSrc, CLK,
+                    output logic [7:0] ALUResult, cpu_out,
+                    output logic Zero);
+logic A, B, B0, C;
+
+reg_file(RA1, RA2, WA, C, CLK, write_enable, A, B0, cpu_out);
+alu(A, B, ALUControl, ALUResult, Zero);
+// 2 to 1 multiplexer
+assign B = (ALUSrc) ? immediate : RD2;
+endmodule
+
+\end{lstlisting}
+
+
 \end{document}

@@ -1,20 +1,23 @@
 `timescale 1ps/1ps 
-`include "reg_file.sv"
+`include "reg_file_alu.sv"
 
-module reg_file_tb;
-logic [3:0] RA1, RA2, WA;
-logic clk, write_enable;
-logic [7:0] ALUResult, RD1, RD2, cpu_out;
-reg_file dut (RA1, RA2, WA, ALUResult, clk, write_enable, RD1, RD2, cpu_out);
+module reg_file_alu_tb;
+logic [3:0] t_RA1, t_RA2, t_WA,
+logic [7:0] t_immediate, t_ALUResult, t_cpu_out,
+logic [1:0] t_ALUControl,
+logic t_write_enable, t_ALUSrc, t_CLK, t_Zero;
 
-initial begin // Generate clock signal with 20 ns period
-  clk = 0;
-  forever #10 clk = ~clk;
+reg_file_alu dut (t_RA1, t_RA2, t_WA, t_immediate, t_ALUControl, t_write_enable, t_ALUSrc, t_CLK, 
+                t_ALUResult, t_cpu_out, t_Zero);
+
+initial begin
+    clk = 0;
+    forever #10 clk = ~clk;
 end
 
 initial begin // Apply stimulus 
-  $dumpfile("reg_file_tb.vcd");
-  $dumpvars(0, reg_file_tb);
+  $dumpfile("reg_file_alu_tb.vcd");
+  $dumpvars(0, reg_file_alu_tb);
   RA1 = 1; RA2 = 2; WA = 0; ALUResult = 5; write_enable = 0; 
   #15 write_enable = 1;
   #20 WA = 1; ALUResult = 7;
@@ -33,3 +36,5 @@ initial begin // Response monitor
             $time, RA1, RA2, WA, ALUResult, clk,  write_enable, RD1, RD2, cpu_out);
 end
 endmodule
+
+
