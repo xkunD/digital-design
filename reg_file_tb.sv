@@ -16,18 +16,20 @@ initial begin // Apply stimulus
 $dumpfile("reg_file_tb.vcd");
 $dumpvars(0, reg_file_tb);
 RA1 = 1; RA2 = 2; WA = 0; ALUResult = 5; write_enable = 0; 
-#10 WA=0; //RESET = 0;
 #15 write_enable = 1;
 #20 WA = 1; ALUResult = 7;
 #20 WA = 5; ALUResult = 13;
 #20 write_enable = 0;
-#20 RA2 = 5;
+#10 RA2 = 5;
+#10;
+#10 WA = 15; write_enable = 1;
+#10 ALUResult = 15;
 #30;
 $finish; // This system tasks ends the simulation 
 end
 
 initial begin // Response monitor
-  $monitor ("t_RA1 = %d t_RA2 = %d t_WA = %d ALUResult = %d t_clk = %d t_write_enable = %d t_RD1 = %d t_RD2 = %d t_cpu_out = %d",
-            RA1, RA2, WA, ALUResult, clk,  write_enable, RD1, RD2, cpu_out);
+  $monitor ("t = %3d, RA1 = %d RA2 = %d WA = %d ALUResult = %d clk = %d write_enable = %d RD1 = %d RD2 = %d cpu_out = %d",
+            $time, RA1, RA2, WA, ALUResult, clk,  write_enable, RD1, RD2, cpu_out);
 end
 endmodule

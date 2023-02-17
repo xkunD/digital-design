@@ -135,8 +135,69 @@ The contents of any two of the registers (with addresses specifiedby the 4-bit i
 \end{lstlisting}
 \subsection{Testbench Code}
 \begin{lstlisting}
-    // waiting for upload
+    `timescale 1ps/1ps 
+    `include "reg_file.sv"
+    
+    module reg_file_tb;
+    logic [3:0] RA1, RA2, WA;
+    logic clk, write_enable;
+    logic [7:0] ALUResult, RD1, RD2, cpu_out;
+    reg_file dut (RA1, RA2, WA, ALUResult, clk, write_enable, RD1, RD2, cpu_out);
+    
+    initial begin // Generate clock signal with 20 ns period
+    clk = 0;
+    forever #10 clk = ~clk;
+    end
+    
+    initial begin // Apply stimulus 
+    $dumpfile("reg_file_tb.vcd");
+    $dumpvars(0, reg_file_tb);
+    RA1 = 1; RA2 = 2; WA = 0; ALUResult = 5; write_enable = 0; 
+    #15 write_enable = 1;
+    #20 WA = 1; ALUResult = 7;
+    #20 WA = 5; ALUResult = 13;
+    #20 write_enable = 0;
+    #10 RA2 = 5;
+    #10;
+    #10 WA = 15; write_enable = 1;
+    #10 ALUResult = 15;
+    #30;
+    $finish; // This system tasks ends the simulation 
+    end
+    
+    initial begin // Response monitor
+      $monitor ("t = %3d, t_RA1 = %d t_RA2 = %d t_WA = %d ALUResult = %d t_clk = %d t_write_enable = %d t_RD1 = %d t_RD2 = %d t_cpu_out = %d",
+                $time, RA1, RA2, WA, ALUResult, clk,  write_enable, RD1, RD2, cpu_out);
+    end
+    endmodule
 \end{lstlisting}
 
-
+\subsection{Simulations}
+The simulation results using Icarus Verilog is as below:
+\begin{Verbatim}[fontsize = \scriptsize]
+t =   0, RA1 =  1 RA2 =  2 WA =  0 ALUResult =   5 clk = 0 write_enable = 0 RD1 =   x RD2 =   x cpu_out =   x
+t =  10, RA1 =  1 RA2 =  2 WA =  0 ALUResult =   5 clk = 1 write_enable = 0 RD1 =   x RD2 =   x cpu_out =   x
+t =  15, RA1 =  1 RA2 =  2 WA =  0 ALUResult =   5 clk = 1 write_enable = 1 RD1 =   x RD2 =   x cpu_out =   x
+t =  20, RA1 =  1 RA2 =  2 WA =  0 ALUResult =   5 clk = 0 write_enable = 1 RD1 =   x RD2 =   x cpu_out =   x
+t =  30, RA1 =  1 RA2 =  2 WA =  0 ALUResult =   5 clk = 1 write_enable = 1 RD1 =   x RD2 =   x cpu_out =   x
+t =  35, RA1 =  1 RA2 =  2 WA =  1 ALUResult =   7 clk = 1 write_enable = 1 RD1 =   x RD2 =   x cpu_out =   x
+t =  40, RA1 =  1 RA2 =  2 WA =  1 ALUResult =   7 clk = 0 write_enable = 1 RD1 =   x RD2 =   x cpu_out =   x
+t =  50, RA1 =  1 RA2 =  2 WA =  1 ALUResult =   7 clk = 1 write_enable = 1 RD1 =   7 RD2 =   x cpu_out =   x
+t =  55, RA1 =  1 RA2 =  2 WA =  5 ALUResult =  13 clk = 1 write_enable = 1 RD1 =   7 RD2 =   x cpu_out =   x
+t =  60, RA1 =  1 RA2 =  2 WA =  5 ALUResult =  13 clk = 0 write_enable = 1 RD1 =   7 RD2 =   x cpu_out =   x
+t =  70, RA1 =  1 RA2 =  2 WA =  5 ALUResult =  13 clk = 1 write_enable = 1 RD1 =   7 RD2 =   x cpu_out =   x
+t =  75, RA1 =  1 RA2 =  2 WA =  5 ALUResult =  13 clk = 1 write_enable = 0 RD1 =   7 RD2 =   x cpu_out =   x
+t =  80, RA1 =  1 RA2 =  2 WA =  5 ALUResult =  13 clk = 0 write_enable = 0 RD1 =   7 RD2 =   x cpu_out =   x
+t =  85, RA1 =  1 RA2 =  5 WA =  5 ALUResult =  13 clk = 0 write_enable = 0 RD1 =   7 RD2 =  13 cpu_out =   x
+t =  90, RA1 =  1 RA2 =  5 WA =  5 ALUResult =  13 clk = 1 write_enable = 0 RD1 =   7 RD2 =  13 cpu_out =   x
+t = 100, RA1 =  1 RA2 =  5 WA =  5 ALUResult =  13 clk = 0 write_enable = 0 RD1 =   7 RD2 =  13 cpu_out =   x
+t = 105, RA1 =  1 RA2 =  5 WA = 15 ALUResult =  13 clk = 0 write_enable = 1 RD1 =   7 RD2 =  13 cpu_out =   x
+t = 110, RA1 =  1 RA2 =  5 WA = 15 ALUResult =  13 clk = 1 write_enable = 1 RD1 =   7 RD2 =  13 cpu_out =  13
+t = 115, RA1 =  1 RA2 =  5 WA = 15 ALUResult =  15 clk = 1 write_enable = 1 RD1 =   7 RD2 =  13 cpu_out =  13
+t = 120, RA1 =  1 RA2 =  5 WA = 15 ALUResult =  15 clk = 0 write_enable = 1 RD1 =   7 RD2 =  13 cpu_out =  13
+t = 130, RA1 =  1 RA2 =  5 WA = 15 ALUResult =  15 clk = 1 write_enable = 1 RD1 =   7 RD2 =  13 cpu_out =  15
+t = 140, RA1 =  1 RA2 =  5 WA = 15 ALUResult =  15 clk = 0 write_enable = 1 RD1 =   7 RD2 =  13 cpu_out =  15 
+\end{Verbatim}
+The simulation results using GTKWave is as following:\vspace{5pt}\\
+\includegraphics[width=\textwidth]{reg_file.png}
 \end{document}
