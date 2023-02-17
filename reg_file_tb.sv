@@ -27,7 +27,7 @@ $finish; // This system tasks ends the simulation
 end
 
 initial begin // Response monitor
-  $monitor ("t_RA1 = %d t_RA2 = %d t_WA = %d ALUResult = %d t_clk = %d t_write_enable = %d t_RD1 = %d t_RD2 = %d",
-            RA1, RA2, WA, ALUResult, clk,  write_enable, RD1, RD2);
+  $monitor ("t_RA1 = %d t_RA2 = %d t_WA = %d ALUResult = %d t_clk = %d t_write_enable = %d t_RD1 = %d t_RD2 = %d t_cpu_out = %d",
+            RA1, RA2, WA, ALUResult, clk,  write_enable, RD1, RD2, cpu_out);
 end
 endmodule

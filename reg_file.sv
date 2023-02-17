@@ -1,4 +1,4 @@
-module reg_file(input logic [3:0] RA1, RA2, WA, 
+module reg_file_exp(input logic [3:0] RA1, RA2, WA, 
                         input logic [7:0] ALUResult,
                         input logic clk, write_enable,
                         output logic [7:0] RD1, RD2, cpu_out); 
@@ -13,4 +13,4 @@ always_ff @(posedge clk)
 if (write_enable && WA > 0) 
     rf[WA] = ALUResult;
 
-endmodule
+endmodule 
