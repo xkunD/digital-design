@@ -1,13 +1,15 @@
 
 \documentclass{article}
 % \usepackage{amsmath}
-\usepackage{geometry}
+\usepackage[margin=0.8in]{geometry}
 \usepackage{graphicx} % Required for inserting images
 \usepackage{listings}
 \usepackage{color}
 \usepackage{verbatim} 
 \usepackage{fancyvrb}
 \usepackage{fvextra}
+
+
 
 \graphicspath{ {./gtkwave/} }
 
@@ -116,65 +118,69 @@ The register file has sixteen 8-bit registers. The register with address 0 alway
 The contents of any two of the registers (with addresses specifiedby the 4-bit inputs RA1 and RA) are continuously output as RD1 and RD2. On the positive edge of the clock, if write\_enable is asserted, and A3 > 0, the input ALUResult is written into the register at address A3 through the WD3 port. The module includes an output port cpu\_out, which continuously outputs the contents of the register at address 15. This will form the main external output of the microprocessor.
 \subsection{Module Code}
 \begin{lstlisting}
-    module reg_file(input logic [3:0] RA1, RA2, WA, 
-                            input logic [7:0] ALUResult,
-                            input logic clk, write_enable,
-                            output logic [7:0] RD1, RD2, cpu_out); 
-    logic [7:0] rf [0:15];
-    logic [3:0] zero;
+module reg_file(input logic [3:0] RA1, RA2, WA, 
+                input logic [7:0] ALUResult,
+                input logic clk, write_enable,
+                output logic [7:0] RD1, RD2, cpu_out); 
+logic [7:0] rf [0:15];
 
-    assign RD1 = rf[RA1]; 
-    assign RD2 = rf[RA2]; 
-    assign cpu_out = rf[15];
+assign RD1 = rf[RA1]; 
+assign RD2 = rf[RA2]; 
+assign cpu_out = rf[15];
 
-    always_ff @(posedge clk) 
-    if (write_enable && WA > 0) 
-        rf[WA] = ALUResult;
+// register with adress 0 always 0
+initial begin
+rf[4'b0] = 8'b0;
+end
 
-    endmodule
+always_ff @(posedge clk) 
+if (write_enable && WA > 0) 
+rf[WA] <= ALUResult;
+
+endmodule 
 \end{lstlisting}
 \subsection{Testbench Code}
 \begin{lstlisting}
-    `timescale 1ps/1ps 
-    `include "reg_file.sv"
-    
-    module reg_file_tb;
-    logic [3:0] RA1, RA2, WA;
-    logic clk, write_enable;
-    logic [7:0] ALUResult, RD1, RD2, cpu_out;
-    reg_file dut (RA1, RA2, WA, ALUResult, clk, write_enable, RD1, RD2, cpu_out);
-    
-    initial begin // Generate clock signal with 20 ns period
-        clk = 0;
-        forever #10 clk = ~clk;
-    end
-    
-    initial begin // Apply stimulus 
-        $dumpfile("reg_file_tb.vcd");
-        $dumpvars(0, reg_file_tb);
-        RA1 = 1; RA2 = 2; WA = 0; ALUResult = 5; write_enable = 0; 
-        #15 write_enable = 1;
-        #20 WA = 1; ALUResult = 7;
-        #20 WA = 5; ALUResult = 13;
-        #20 write_enable = 0;
-        #10 RA2 = 5;
-        #10;
-        #10 WA = 15; write_enable = 1;
-        #10 ALUResult = 15;
-        #30;
-        $finish; // This system tasks ends the simulation 
-    end
-    
-    initial begin // Response monitor
-      $monitor ("t = %3d, t_RA1 = %d t_RA2 = %d t_WA = %d ALUResult = %d t_clk = %d t_write_enable = %d t_RD1 = %d t_RD2 = %d t_cpu_out = %d",
-                $time, RA1, RA2, WA, ALUResult, clk,  write_enable, RD1, RD2, cpu_out);
-    end
-    endmodule
+`timescale 1ps/1ps 
+`include "reg_file.sv"
+
+module reg_file_tb;
+logic [3:0] RA1, RA2, WA;
+logic clk, write_enable;
+logic [7:0] ALUResult, RD1, RD2, cpu_out;
+reg_file dut (RA1, RA2, WA, ALUResult, clk, write_enable, RD1, RD2, cpu_out);
+
+initial begin // Generate clock signal with 20 ns period
+    clk = 0;
+    forever #10 clk = ~clk;
+end
+
+initial begin // Apply stimulus 
+    $dumpfile("reg_file_tb.vcd");
+    $dumpvars(0, reg_file_tb);
+    RA1 = 1; RA2 = 2; WA = 0; ALUResult = 5; write_enable = 0; 
+    #15 write_enable = 1;
+    #20 WA = 1; ALUResult = 7;
+    #20 WA = 5; ALUResult = 13;
+    #20 write_enable = 0;
+    #10 RA2 = 5;
+    #10;
+    #10 WA = 15; write_enable = 1;
+    #10 ALUResult = 15;
+    #30;
+    $finish; // This system tasks ends the simulation 
+end
+
+initial begin // Response monitor
+    $monitor ("t = %3d, t_RA1 = %d t_RA2 = %d t_WA = %d ALUResult = %d t_clk = %d t_write_enable = %d t_RD1 = %d t_RD2 = %d t_cpu_out = %d",
+            $time, RA1, RA2, WA, ALUResult, clk,  write_enable, RD1, RD2, cpu_out);
+end
+endmodule
 \end{lstlisting}
 
 \subsection{Simulations}
 The simulation results using Icarus Verilog is as below:
-\begin{Verbatim}[fontsize = \scriptsize]
+\begin{Verbatim}[fontsize = \footnotesize]
 t =   0, RA1 =  1 RA2 =  2 WA =  0 ALUResult =   5 clk = 0 write_enable = 0 RD1 =   x RD2 =   x cpu_out =   x
 t =  10, RA1 =  1 RA2 =  2 WA =  0 ALUResult =   5 clk = 1 write_enable = 0 RD1 =   x RD2 =   x cpu_out =   x
 t =  15, RA1 =  1 RA2 =  2 WA =  0 ALUResult =   5 clk = 1 write_enable = 1 RD1 =   x RD2 =   x cpu_out =   x
@@ -208,26 +214,90 @@ Include a 2-to-1 multiplexer, which selects either the RD2 output from the regis
 
 \subsection{Module Code}
 \begin{lstlisting}
-    `include "reg_file.sv"
-    `include "alu.sv"
-    
-    module reg_file_alu(input logic [3:0] RA1, RA2, WA,
-                        input logic [7:0] immediate,
-                        input logic [1:0] ALUControl,
-                        input logic write_enable, ALUSrc, CLK,
-                        output logic [7:0] ALUResult, cpu_out,
-                        output logic Zero);
-    logic[7:0] x_srcA, x_srcB, x_RD2;
-    
-    alu newalu(x_srcA, x_srcB, ALUControl, ALUResult, Zero);
-    reg_file newregfile(RA1, RA2, WA, ALUResult, CLK, write_enable, x_srcA, x_RD2, cpu_out);
-    // 2 to 1 multiplexer
-    assign x_srcB = (ALUSrc) ? immediate : x_RD2;
-    
-    endmodule
+`include "reg_file.sv"
+`include "alu.sv"
 
+module reg_file_alu(input logic [3:0] RA1, RA2, WA,
+                    input logic [7:0] immediate,
+                    input logic [1:0] ALUControl,
+                    input logic write_enable, ALUSrc, CLK,
+                    output logic [7:0] ALUResult, cpu_out,
+                    output logic Zero);
+logic[7:0] x_srcA, x_srcB, x_RD2;
+
+alu newalu(x_srcA, x_srcB, ALUControl, ALUResult, Zero);
+reg_file newregfile(RA1, RA2, WA, ALUResult, CLK, write_enable, x_srcA, x_RD2, cpu_out);
+// 2 to 1 multiplexer
+assign x_srcB = (ALUSrc) ? immediate : x_RD2;
+
+endmodule
 \end{lstlisting}
 \subsection{Testbench Code}
+\begin{lstlisting}
+`timescale 1ps/1ps 
+`include "reg_file_alu.sv"
+
+module reg_file_alu_tb;
+logic [3:0] t_RA1, t_RA2, t_WA;
+logic [7:0] t_immediate, t_ALUResult, t_cpu_out;
+logic [1:0] t_ALUControl;
+logic t_write_enable, t_ALUSrc, clk, t_Zero;
+
+reg_file_alu dut (t_RA1, t_RA2, t_WA, t_immediate, t_ALUControl, t_write_enable, t_ALUSrc, clk, 
+                t_ALUResult, t_cpu_out, t_Zero);
+
+initial begin
+    clk = 0;
+    forever #10 clk = ~clk;
+end
+
+initial begin // Apply stimulus 
+    $dumpfile("reg_file_alu_tb.vcd");
+    $dumpvars(0, reg_file_alu_tb);
+    t_RA1 = 4'h0; t_RA2 = 4'h2; t_WA = 4'h0; t_immediate = 8'h0A; 
+    t_ALUSrc = 1; t_ALUControl = 2'b10; t_write_enable = 1;
+    #10 t_RA2 = 4'h1; t_WA = 4'h1;
+    #10 t_immediate = 8'h07;
+    #20 t_RA1 = 4'h1; t_WA = 4'h1;
+    #40 t_ALUControl = 2'b11; t_WA = 4'hF;
+    #20 t_immediate = 8'b10111111;
+    #20 t_immediate = 8'h0; t_ALUControl = 2'b00;
+    #10
+
+$finish; // This system tasks ends the simulation 
+end
+
+initial begin // Response monitor
+    $monitor ("t = %3d, RA1 = %d RA2 = %d WA = %d Immediate = %d clk = %d write_enable = %d alusRC = %d alucontrol = %d aluresult = %d cpu_out = %d zero = %d",
+            $time, t_RA1, t_RA2, t_WA, t_immediate, clk,  t_write_enable, t_ALUSrc, t_ALUControl, t_ALUResult, t_cpu_out, t_Zero);
+end
+endmodule
+\end{lstlisting}
+
+\subsection{Simulations}
+The simulation result using Icarus Verilog is as following:
+\begin{Verbatim}[fontsize = \scriptsize]
+VCD info: dumpfile reg_file_alu_tb.vcd opened for output.
+t =   0, RA1 =  0 RA2 =  2 WA =  0 Immediate =  10 clk = 0 write_enable = 1 alusRC = 1 alucontrol = 2 aluresult =  10 cpu_out =   x zero = 0
+t =  10, RA1 =  0 RA2 =  1 WA =  1 Immediate =  10 clk = 1 write_enable = 1 alusRC = 1 alucontrol = 2 aluresult =  10 cpu_out =   x zero = 0
+t =  20, RA1 =  0 RA2 =  1 WA =  1 Immediate =   7 clk = 0 write_enable = 1 alusRC = 1 alucontrol = 2 aluresult =   7 cpu_out =   x zero = 0
+t =  30, RA1 =  0 RA2 =  1 WA =  1 Immediate =   7 clk = 1 write_enable = 1 alusRC = 1 alucontrol = 2 aluresult =   7 cpu_out =   x zero = 0
+t =  40, RA1 =  1 RA2 =  1 WA =  1 Immediate =   7 clk = 0 write_enable = 1 alusRC = 1 alucontrol = 2 aluresult =  14 cpu_out =   x zero = 0
+t =  50, RA1 =  1 RA2 =  1 WA =  1 Immediate =   7 clk = 1 write_enable = 1 alusRC = 1 alucontrol = 2 aluresult =  21 cpu_out =   x zero = 0
+t =  60, RA1 =  1 RA2 =  1 WA =  1 Immediate =   7 clk = 0 write_enable = 1 alusRC = 1 alucontrol = 2 aluresult =  21 cpu_out =   x zero = 0
+t =  70, RA1 =  1 RA2 =  1 WA =  1 Immediate =   7 clk = 1 write_enable = 1 alusRC = 1 alucontrol = 2 aluresult =  28 cpu_out =   x zero = 0
+t =  80, RA1 =  1 RA2 =  1 WA = 15 Immediate =   7 clk = 0 write_enable = 1 alusRC = 1 alucontrol = 3 aluresult =  14 cpu_out =   x zero = 0
+t =  90, RA1 =  1 RA2 =  1 WA = 15 Immediate =   7 clk = 1 write_enable = 1 alusRC = 1 alucontrol = 3 aluresult =  14 cpu_out =  14 zero = 0
+t = 100, RA1 =  1 RA2 =  1 WA = 15 Immediate = 191 clk = 0 write_enable = 1 alusRC = 1 alucontrol = 3 aluresult =  86 cpu_out =  14 zero = 0
+t = 110, RA1 =  1 RA2 =  1 WA = 15 Immediate = 191 clk = 1 write_enable = 1 alusRC = 1 alucontrol = 3 aluresult =  86 cpu_out =  86 zero = 0
+t = 120, RA1 =  1 RA2 =  1 WA = 15 Immediate =   0 clk = 0 write_enable = 1 alusRC = 1 alucontrol = 0 aluresult =   0 cpu_out =  86 zero = 1
+t = 130, RA1 =  1 RA2 =  1 WA = 15 Immediate =   0 clk = 1 write_enable = 1 alusRC = 1 alucontrol = 0 aluresult =   0 cpu_out =   0 zero = 1
+\end{Verbatim}
+
+The simulation results using GTKWave is as following:\vspace{5pt}\\
+\includegraphics[width=\textwidth]{reg_file.png}
+
+
 
 
 \end{document}
