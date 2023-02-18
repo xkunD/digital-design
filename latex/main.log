@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.14)  17 FEB 2023 20:01
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.14)  18 FEB 2023 12:05
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -258,15 +258,15 @@ Package pdftex.def Info: ./gtkwave//reg_file.png  used on input line 202.
 (pdftex.def)             Requested size: 430.00462pt x 92.19847pt.
  [4] [5 <./gtkwave//reg_file.png>] [6] (./main.aux) ) 
 Here is how much of TeX's memory you used:
- 5454 strings out of 478268
- 86227 string characters out of 5846347
+ 5455 strings out of 478268
+ 86260 string characters out of 5846347
  628142 words of memory out of 5000000
- 23622 multiletter control sequences out of 15000+600000
+ 23623 multiletter control sequences out of 15000+600000
  474305 words of font info for 46 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,6n,62p,563b,1651s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/cm-super/sftt0900.pfb>
-Output written on main.pdf (6 pages, 305942 bytes).
+Output written on main.pdf (6 pages, 306022 bytes).
 PDF statistics:
  69 PDF objects out of 1000 (max. 8388607)
  40 compressed objects within 1 object stream
