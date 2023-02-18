@@ -9,7 +9,7 @@ assign RD2 = rf[RA2];
 assign cpu_out = rf[15];
 
 initial
-    rf[4'b0] = 8'b0;
+rf[4'b0] = 8'b0;
 
 
 always_ff @(posedge clk) 
