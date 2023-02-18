@@ -1,0 +1,64 @@
+$date
+	Sat Feb 18 22:22:34 2023
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module pc_exp_tb $end
+$var wire 8 ! t_PC [7:0] $end
+$var reg 1 " clk $end
+$var reg 1 # t_reset $end
+$scope module pc $end
+$var wire 1 " clk $end
+$var wire 1 # reset $end
+$var reg 8 $ count [7:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+bx $
+x#
+0"
+bx !
+$end
+#10000
+b0 !
+b0 $
+1#
+1"
+#20000
+0"
+#30000
+1"
+#40000
+0"
+#50000
+b1 !
+b1 $
+1"
+0#
+#60000
+0"
+#70000
+b10 !
+b10 $
+1"
+#80000
+0"
+#90000
+b11 !
+b11 $
+1"
+#100000
+0"
+1#
+#110000
+b0 !
+b0 $
+1"
+#120000
+0"
