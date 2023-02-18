@@ -394,6 +394,7 @@ endmodule
 module pc_tb;
 logic [7:0] t_PC, t_immediate;
 logic t_PCSrc, clk, t_reset;
+
 pc pc(t_immediate, t_PCSrc, clk, t_reset, t_PC);
 
 initial begin
@@ -406,15 +407,10 @@ initial begin
     $dumpvars(0, pc_tb);
     // Stimulus generator
     t_reset = 1; t_PCSrc = 0; t_immediate = 8'b01;
-    #10;
-    t_reset = 0; t_PCSrc = 1;
-    #20
-    t_immediate = 8'b111;
-    #20
-    t_PCSrc = 0;
-    #50
-    t_reset = 1;
-    #20;
+    #10 t_reset = 0; t_PCSrc = 1;
+    #20 t_immediate = 8'b111;
+    #20 t_PCSrc = 0;
+    #50 t_reset = 1;
 end
 
 initial begin // Response monitor
@@ -443,7 +439,12 @@ t = 100 clk = 0, t_immediate = 00000111 t_PCSrc = 0 t_reset = 1 t_PC =  10
 t = 110 clk = 1, t_immediate = 00000111 t_PCSrc = 0 t_reset = 1 t_PC =   0
 t = 120 clk = 0, t_immediate = 00000111 t_PCSrc = 0 t_reset = 1 t_PC =   0
 \end{Verbatim}
+The simulation results using GTKWave is as following:\vspace{5pt}\\
+\includegraphics[width=\textwidth]{pc.png}
 
+\newpage
+\section{Combining the ROM with program counter}
+\subsection{Module Code}
 
 
 

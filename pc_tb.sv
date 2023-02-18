@@ -17,15 +17,10 @@ initial begin
     $dumpvars(0, pc_tb);
     // Stimulus generator
     t_reset = 1; t_PCSrc = 0; t_immediate = 8'b01;
-    #10;
-    t_reset = 0; t_PCSrc = 1;
-    #20
-    t_immediate = 8'b111;
-    #20
-    t_PCSrc = 0;
-    #50
-    t_reset = 1;
-    #20;
+    #10 t_reset = 0; t_PCSrc = 1;
+    #20 t_immediate = 8'b111;
+    #20 t_PCSrc = 0;
+    #50 t_reset = 1;
 end
 
 initial begin // Response monitor

@@ -317,6 +317,11 @@ INPUT ./gtkwave//reg_file_alu.png
 INPUT ./gtkwave//reg_file_alu.png
 INPUT ./gtkwave//reg_file_alu.png
 INPUT ./gtkwave//reg_file_alu.png
+INPUT ./gtkwave//pc.png
+INPUT ./gtkwave//pc.png
+INPUT ./gtkwave//pc.png
+INPUT ./gtkwave//pc.png
+INPUT ./gtkwave//pc.png
 INPUT main.aux
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 INPUT /usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
