@@ -9,6 +9,8 @@ assign RD1 = rf[RA1];
 assign RD2 = rf[RA2]; 
 assign cpu_out = rf[15];
 
+assign rf[0] == 8'h0;
+
 always_ff @(posedge clk) 
 if (write_enable && WA > 0) 
     rf[WA] = ALUResult;
