@@ -1,5 +1,5 @@
 `timescale 1ns/1ps 
-`include "alu.sv"
+`include "instruction_memory.sv"
 
 module instruction_memory_tb;
 logic [7:0] t_PC;
@@ -11,6 +11,14 @@ initial begin
     $dumpfile("instruction_memory_tb.vcd"); 
     $dumpvars(0, instruction_memory_tb);
     // Stimulus generator
+    t_PC = 8'h00; 
+    #10 t_PC = 8'h01;
+    #10 t_PC = 8'h02;
+    #10 t_PC = 8'h03;
+    #10 t_PC = 8'h04;
+    #10 t_PC = 8'h05;
+    #10 t_PC = 8'h06;
+    #10 t_PC = 8'h07;
     
 end
 
