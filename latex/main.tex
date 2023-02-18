@@ -298,7 +298,80 @@ The simulation results using GTKWave is as following:\vspace{5pt}\\
 
 \newpage
 \section{Instruction memory}
+
 \subsection{Module Code}
+\begin{lstlisting}
+module instruction_memory(input logic[7:0] PC,
+                            output logic[23:0] Instr);
+logic [23:0] data_ROM [0:256];
+initial
+$readmemh("program.txt", data_ROM); 
+assign Instr = data_ROM[PC]; 
+endmodule
+\end{lstlisting}
+
+\subsection{Text File}
+This is the content of the text file named ``program.txt'':
+\begin{Verbatim}
+610001
+620020
+6F0000
+701207
+211100
+6FF001
+700003
+700007
+\end{Verbatim}
+
+\subsection{Testbench Code}
+\begin{lstlisting}
+`timescale 1ns/1ps 
+`include "instruction_memory.sv"
+
+module instruction_memory_tb;
+logic [7:0] t_PC;
+logic [23:0] t_Instr;
+
+instruction_memory dut (t_PC, t_Instr);
+
+initial begin
+    $dumpfile("instruction_memory_tb.vcd"); 
+    $dumpvars(0, instruction_memory_tb);
+    // Stimulus generator
+    t_PC = 8'h00; 
+    #10 t_PC = 8'h01;
+    #10 t_PC = 8'h02;
+    #10 t_PC = 8'h03;
+    #10 t_PC = 8'h04;
+    #10 t_PC = 8'h05;
+    #10 t_PC = 8'h06;
+    #10 t_PC = 8'h07;
+    
+end
+
+initial begin // Response monitor
+    $monitor ("t_PC = %h t_Instr = %h", t_PC, t_Instr);
+end
+
+endmodule
+\end{lstlisting}
+
+\subsection{Simulations}
+The simulation result using Icarus Verilog is as following:
+\begin{Verbatim}
+    t_PC = 00 t_Instr = 610001
+    t_PC = 01 t_Instr = 620020
+    t_PC = 02 t_Instr = 6f0000
+    t_PC = 03 t_Instr = 701207
+    t_PC = 04 t_Instr = 211100
+    t_PC = 05 t_Instr = 6ff001
+    t_PC = 06 t_Instr = 700003
+    t_PC = 07 t_Instr = 700007
+\end{Verbatim}
+
+\newpage
+\section{Program Counter}
+Implement the 8-bit program counter shown above, as a SystemVerilog module with the name pc. The register should be updated on the positive edges of the clock, and have an active high reset. The 2-to-1 multiplexer selects the next value of PC as either PC+1 (the next instruction in the program will be fetched) or the input immediate (the program branches to an instruction elsewhere).
 
 
 
