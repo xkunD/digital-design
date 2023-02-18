@@ -5,7 +5,6 @@ module pc_tb;
 logic [7:0] t_PC, t_immediate;
 logic t_PCSrc, clk, t_reset;
 
-
 pc pc(t_immediate, t_PCSrc, clk, t_reset, t_PC);
 
 initial begin

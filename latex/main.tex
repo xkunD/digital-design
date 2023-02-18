@@ -373,6 +373,78 @@ The simulation result using Icarus Verilog is as following:
 \section{Program Counter}
 Implement the 8-bit program counter shown above, as a SystemVerilog module with the name pc. The register should be updated on the positive edges of the clock, and have an active high reset. The 2-to-1 multiplexer selects the next value of PC as either PC+1 (the next instruction in the program will be fetched) or the input immediate (the program branches to an instruction elsewhere).
 
+\subsection{Module Code}
+\begin{lstlisting}
+module pc (input logic[7:0] immediate, 
+            input logic PCSrc, CLK, reset,
+            output logic[7:0] PC);
+always_ff @ (posedge CLK) begin
+    if (reset) PC <= 8'b0; 
+    else if (PCSrc) PC <= immediate;
+    else PC <= PC + 1; 
+end
+endmodule
+\end{lstlisting}
+
+\subsection{Testbench Code}
+\begin{lstlisting}
+`timescale 1ns/1ps
+`include "pc.sv"
+
+module pc_tb;
+logic [7:0] t_PC, t_immediate;
+logic t_PCSrc, clk, t_reset;
+pc pc(t_immediate, t_PCSrc, clk, t_reset, t_PC);
+
+initial begin
+    clk = 0;
+    forever #10 clk = ~clk;
+end
+
+initial begin
+    $dumpfile("pc_tb.vcd"); 
+    $dumpvars(0, pc_tb);
+    // Stimulus generator
+    t_reset = 1; t_PCSrc = 0; t_immediate = 8'b01;
+    #10;
+    t_reset = 0; t_PCSrc = 1;
+    #20
+    t_immediate = 8'b111;
+    #20
+    t_PCSrc = 0;
+    #50
+    t_reset = 1;
+    #20;
+end
+
+initial begin // Response monitor
+    $monitor ("t = %3d clk = %d, t_immediate = %b t_PCSrc = %b t_reset = %d t_PC = %d", $time, clk, t_immediate, t_PCSrc, t_reset, t_PC);
+    #120;
+    $finish; 
+end
+
+endmodule
+\end{lstlisting}
+
+\subsection{Simulations}
+The simulation result using Icarus Verilog is as following:
+\begin{Verbatim}
+t =   0 clk = 0, t_immediate = 00000001 t_PCSrc = 0 t_reset = 1 t_PC =   x
+t =  10 clk = 1, t_immediate = 00000001 t_PCSrc = 1 t_reset = 0 t_PC =   1
+t =  20 clk = 0, t_immediate = 00000001 t_PCSrc = 1 t_reset = 0 t_PC =   1
+t =  30 clk = 1, t_immediate = 00000111 t_PCSrc = 1 t_reset = 0 t_PC =   7
+t =  40 clk = 0, t_immediate = 00000111 t_PCSrc = 1 t_reset = 0 t_PC =   7
+t =  50 clk = 1, t_immediate = 00000111 t_PCSrc = 0 t_reset = 0 t_PC =   8
+t =  60 clk = 0, t_immediate = 00000111 t_PCSrc = 0 t_reset = 0 t_PC =   8
+t =  70 clk = 1, t_immediate = 00000111 t_PCSrc = 0 t_reset = 0 t_PC =   9
+t =  80 clk = 0, t_immediate = 00000111 t_PCSrc = 0 t_reset = 0 t_PC =   9
+t =  90 clk = 1, t_immediate = 00000111 t_PCSrc = 0 t_reset = 0 t_PC =  10
+t = 100 clk = 0, t_immediate = 00000111 t_PCSrc = 0 t_reset = 1 t_PC =  10
+t = 110 clk = 1, t_immediate = 00000111 t_PCSrc = 0 t_reset = 1 t_PC =   0
+t = 120 clk = 0, t_immediate = 00000111 t_PCSrc = 0 t_reset = 1 t_PC =   0
+\end{Verbatim}
+
+
 
 
 
