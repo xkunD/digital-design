@@ -1,6 +1,6 @@
 # Fdb version 3
-["pdflatex"] 1676825774 "/Users/duxiaokun/Documents/cw-ucl/digital-design/latex/main.tex" "main.pdf" "main" 1676825776
-  "/Users/duxiaokun/Documents/cw-ucl/digital-design/latex/main.tex" 1676825774 28050 4ac233d48dd5242efe306e8109bcd815 ""
+["pdflatex"] 1676827340 "/Users/duxiaokun/Documents/cw-ucl/digital-design/latex/main.tex" "main.pdf" "main" 1676827341
+  "/Users/duxiaokun/Documents/cw-ucl/digital-design/latex/main.tex" 1676827338 29069 df568765b3bd9841d6de72a4b4eddf89 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/jknappen/ec/tctt0900.tfm" 1136768653 1536 bda3e6bf9784a4cc572c754e0c3eeb00 ""
@@ -64,11 +64,14 @@
   "/usr/local/texlive/2022/texmf-var/web2c/pdftex/pdflatex.fmt" 1676377751 2826443 3ab2e83e4d3a52ad81473807bfb43177 ""
   "/usr/local/texlive/2022/texmf.cnf" 1647878952 577 209b46be99c9075fd74d4c0369380e8c ""
   "gtkwave//alu.png" 1676313907 93249 504c52143ad34e30a0cca897bbb74337 ""
+  "gtkwave//control_unit.png" 1676826813 96767 9098ceb47c59f160600a779189aaa3cf ""
+  "gtkwave//cpu.png" 1676827133 81047 034e7a31acb38f31af27a1022a6319f1 ""
+  "gtkwave//instruction_memory.png" 1676826696 58783 6df298fcf476d86abb493b7716eb8924 ""
   "gtkwave//pc.png" 1676758335 81072 d9a89127bced3e2b5d5993f2f7b475cb ""
   "gtkwave//reg_file.png" 1676663374 137121 1bea95a840acbf6d575bd617c5ada0ac ""
   "gtkwave//reg_file_alu.png" 1676744592 160575 2ca6246e17e5116d1cfa08a77d424142 ""
-  "main.aux" 1676825776 3549 11bab340fe3b52e40ea82146b929c181 "pdflatex"
-  "main.tex" 1676825774 28050 4ac233d48dd5242efe306e8109bcd815 ""
+  "main.aux" 1676827341 3549 fc2833eef4ccd6e1533fde2c29ae6ba4 "pdflatex"
+  "main.tex" 1676827338 29069 df568765b3bd9841d6de72a4b4eddf89 ""
   (generated)
   "main.aux"
   "main.log"
