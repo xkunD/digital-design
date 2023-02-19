@@ -30,8 +30,6 @@ end
 
 initial begin // Response monitor
     $monitor ("t = %3d clk = %d, t_immediate = %b t_PCSrc = %b t_reset = %d t_Instr = %h", $time, clk, t_immediate, t_PCSrc, t_reset, t_Instr);
-    
-    
 end
 
 endmodule
