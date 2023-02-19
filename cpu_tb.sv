@@ -18,9 +18,7 @@ initial begin
     // Stimulus generator
     t_reset = 1; 
     #20 t_reset = 0;
-    #20 t_reset = 1;
-    #20 t_reset = 0;
-    #10 $finish;
+    #1000 $finish;
 end
 
 initial begin // Response monitor

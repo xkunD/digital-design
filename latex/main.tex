@@ -599,7 +599,123 @@ The simulation result using Icarus Verilog is as following:
     t = 140 t_opcode = 0111, t_RegWrite = 0, t_ALUSrc = 0, ALUControl = 11, Branch = 1
 \end{Verbatim}
 
+\section{Complete CPU design}
+\subsection{Module Code}
+\begin{lstlisting}
+`include "control_unit.sv"
+`include "reg_file_alu.sv"
+`include "instruction_memory_pc.sv"
+
+module cpu (input logic CLK, reset,
+            output logic[7:0] ALUResult, cpu_out);
+logic x_PCSrc;
+logic [23:0] x_Instr;
+logic [1:0] x_ALUControl;
+logic x_ALUSrc, x_RegWrite, x_Branch, x_Zero;
 
 
+instruction_memory_pc cpu_instruction_memory_pc(x_Instr[7:0], x_PCSrc, CLK, reset, 
+    x_Instr);
+
+reg_file_alu cpu_reg_file_alu (x_Instr[15:12], x_Instr[11:8], x_Instr[19:16], x_Instr[7:0], x_ALUControl, x_RegWrite, x_ALUSrc, CLK, 
+    ALUResult, cpu_out, x_Zero);
+
+control_unit cpu_control_unit (x_Instr[23:20], x_Branch, x_ALUSrc, x_RegWrite, x_ALUControl);
+
+assign x_PCSrc = x_Branch & x_Zero;
+
+endmodule
+\end{lstlisting}
+
+\subsection{Testbench Code}
+\begin{lstlisting}
+`timescale 1ps/1ps
+`include "cpu.sv"
+
+module cpu_tb;
+logic clk, t_reset;
+logic [7:0] t_ALUResult, t_cpu_out;
+
+cpu dut (clk, t_reset, t_ALUResult, t_cpu_out);
+
+initial begin
+    clk = 0;
+    forever #10 clk = ~clk;
+end
+
+initial begin
+    $dumpfile("cpu_tb.vcd"); 
+    $dumpvars(0, cpu_tb);
+    // Stimulus generator
+    t_reset = 1; 
+    #20 t_reset = 0;
+    #1000 $finish;
+end
+
+initial begin // Response monitor
+    $monitor ("t = %3d clk = %d, t_reset = %d t_ALUResult = %b t_cpu_out = %d", $time, clk, t_reset, t_ALUResult, t_cpu_out);
+end
+endmodule
+\end{lstlisting}
+
+\subsection{Simulations}
+
+\begin{Verbatim}[fontsize = \footnotesize]
+    t =   0 clk = 0, t_reset = 1 t_ALUResult = xxxxxxxx t_cpu_out =   x
+    t =  10 clk = 1, t_reset = 1 t_ALUResult = 00000001 t_cpu_out =   x
+    t =  20 clk = 0, t_reset = 0 t_ALUResult = 00000001 t_cpu_out =   x
+    t =  30 clk = 1, t_reset = 0 t_ALUResult = 00100000 t_cpu_out =   x
+    t =  40 clk = 0, t_reset = 0 t_ALUResult = 00100000 t_cpu_out =   x
+    t =  50 clk = 1, t_reset = 0 t_ALUResult = 00000000 t_cpu_out =   x
+    t =  60 clk = 0, t_reset = 0 t_ALUResult = 00000000 t_cpu_out =   x
+    t =  70 clk = 1, t_reset = 0 t_ALUResult = 11100001 t_cpu_out =   0
+    t =  80 clk = 0, t_reset = 0 t_ALUResult = 11100001 t_cpu_out =   0
+    t =  90 clk = 1, t_reset = 0 t_ALUResult = 00000010 t_cpu_out =   0
+    t = 100 clk = 0, t_reset = 0 t_ALUResult = 00000010 t_cpu_out =   0
+    t = 110 clk = 1, t_reset = 0 t_ALUResult = 00000001 t_cpu_out =   0
+    t = 120 clk = 0, t_reset = 0 t_ALUResult = 00000001 t_cpu_out =   0
+    t = 130 clk = 1, t_reset = 0 t_ALUResult = 00000000 t_cpu_out =   1
+    t = 140 clk = 0, t_reset = 0 t_ALUResult = 00000000 t_cpu_out =   1
+    t = 150 clk = 1, t_reset = 0 t_ALUResult = 11100010 t_cpu_out =   1
+    t = 160 clk = 0, t_reset = 0 t_ALUResult = 11100010 t_cpu_out =   1
+    t = 170 clk = 1, t_reset = 0 t_ALUResult = 00000100 t_cpu_out =   1
+    t = 180 clk = 0, t_reset = 0 t_ALUResult = 00000100 t_cpu_out =   1
+    t = 190 clk = 1, t_reset = 0 t_ALUResult = 00000010 t_cpu_out =   1
+    t = 200 clk = 0, t_reset = 0 t_ALUResult = 00000010 t_cpu_out =   1
+    t = 210 clk = 1, t_reset = 0 t_ALUResult = 00000000 t_cpu_out =   2
+    t = 220 clk = 0, t_reset = 0 t_ALUResult = 00000000 t_cpu_out =   2
+    t = 230 clk = 1, t_reset = 0 t_ALUResult = 11100100 t_cpu_out =   2
+    t = 240 clk = 0, t_reset = 0 t_ALUResult = 11100100 t_cpu_out =   2
+    t = 250 clk = 1, t_reset = 0 t_ALUResult = 00001000 t_cpu_out =   2
+    t = 260 clk = 0, t_reset = 0 t_ALUResult = 00001000 t_cpu_out =   2
+    t = 270 clk = 1, t_reset = 0 t_ALUResult = 00000011 t_cpu_out =   2
+    t = 280 clk = 0, t_reset = 0 t_ALUResult = 00000011 t_cpu_out =   2
+    t = 290 clk = 1, t_reset = 0 t_ALUResult = 00000000 t_cpu_out =   3
+    t = 300 clk = 0, t_reset = 0 t_ALUResult = 00000000 t_cpu_out =   3
+    t = 310 clk = 1, t_reset = 0 t_ALUResult = 11101000 t_cpu_out =   3
+    t = 320 clk = 0, t_reset = 0 t_ALUResult = 11101000 t_cpu_out =   3
+    t = 330 clk = 1, t_reset = 0 t_ALUResult = 00010000 t_cpu_out =   3
+    t = 340 clk = 0, t_reset = 0 t_ALUResult = 00010000 t_cpu_out =   3
+    t = 350 clk = 1, t_reset = 0 t_ALUResult = 00000100 t_cpu_out =   3
+    t = 360 clk = 0, t_reset = 0 t_ALUResult = 00000100 t_cpu_out =   3
+    t = 370 clk = 1, t_reset = 0 t_ALUResult = 00000000 t_cpu_out =   4
+    t = 380 clk = 0, t_reset = 0 t_ALUResult = 00000000 t_cpu_out =   4
+    t = 390 clk = 1, t_reset = 0 t_ALUResult = 11110000 t_cpu_out =   4
+    t = 400 clk = 0, t_reset = 0 t_ALUResult = 11110000 t_cpu_out =   4
+    t = 410 clk = 1, t_reset = 0 t_ALUResult = 00100000 t_cpu_out =   4
+    t = 420 clk = 0, t_reset = 0 t_ALUResult = 00100000 t_cpu_out =   4
+    t = 430 clk = 1, t_reset = 0 t_ALUResult = 00000101 t_cpu_out =   4
+    t = 440 clk = 0, t_reset = 0 t_ALUResult = 00000101 t_cpu_out =   4
+    t = 450 clk = 1, t_reset = 0 t_ALUResult = 00000000 t_cpu_out =   5
+    t = 460 clk = 0, t_reset = 0 t_ALUResult = 00000000 t_cpu_out =   5
+    t = 470 clk = 1, t_reset = 0 t_ALUResult = 00000000 t_cpu_out =   5
+    t = 480 clk = 0, t_reset = 0 t_ALUResult = 00000000 t_cpu_out =   5
+    t = 490 clk = 1, t_reset = 0 t_ALUResult = 00000000 t_cpu_out =   5
+    t = 500 clk = 0, t_reset = 0 t_ALUResult = 00000000 t_cpu_out =   5
+    t = 510 clk = 1, t_reset = 0 t_ALUResult = 00000000 t_cpu_out =   5
+    t = 520 clk = 0, t_reset = 0 t_ALUResult = 00000000 t_cpu_out =   5
+    t = 530 clk = 1, t_reset = 0 t_ALUResult = 00000000 t_cpu_out =   5
+    
+\end{Verbatim}
 
 \end{document}
