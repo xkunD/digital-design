@@ -20,10 +20,10 @@ initial begin
     #20 t_reset = 0;
     #20 t_reset = 1;
     #20 t_reset = 0;
-    $finish;
+    #10 $finish;
 end
 
 initial begin // Response monitor
-    $monitor ("t = %3d clk = %d, t_reset = %d t_ALUResult = %d t_cpu_out = %d", $time, clk, t_reset, t_ALUResult, t_cpu_out);
+    $monitor ("t = %3d clk = %d, t_reset = %d t_ALUResult = %h t_cpu_out = %d", $time, clk, t_reset, t_ALUResult, t_cpu_out);
 end
 endmodule

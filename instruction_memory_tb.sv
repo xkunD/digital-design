@@ -19,7 +19,7 @@ initial begin
     #10 t_PC = 8'h05;
     #10 t_PC = 8'h06;
     #10 t_PC = 8'h07;
-    
+    $finish;
 end
 
 initial begin // Response monitor
