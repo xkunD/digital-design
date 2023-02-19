@@ -518,4 +518,88 @@ t = 110 clk = 1, t_immediate = 00000111 t_PCSrc = 1 t_reset = 0 t_Instr =  70000
 t = 120 clk = 0, t_immediate = 00000111 t_PCSrc = 1 t_reset = 0 t_Instr =  700007 t_pc = 07
 \end{Verbatim}
 
+\newpage
+\section{Control Unit}
+\subsection{Module Code}
+\begin{lstlisting}
+module control_unit (input logic[3:0] opcode,
+                        output logic Branch, ALUSrc, RegWrite,
+                        output logic[1:0]ALUControl);
+always_comb
+case (opcode)
+    4'b0000 : begin
+        RegWrite = 1; ALUSrc = 0; ALUControl = 2'b00; Branch = 0;
+    end
+    4'b0001 : begin
+        RegWrite = 1; ALUSrc = 0; ALUControl = 2'b01; Branch = 0;
+    end
+    4'b0010 : begin
+        RegWrite = 1; ALUSrc = 0; ALUControl = 2'b10; Branch = 0;
+    end
+    4'b0011 : begin
+        RegWrite = 1; ALUSrc = 0; ALUControl = 2'b11; Branch = 0;
+    end
+    4'b0100 : begin
+        RegWrite = 1; ALUSrc = 1; ALUControl = 2'b00; Branch = 0;
+    end
+    4'b0101 : begin
+        RegWrite = 1; ALUSrc = 1; ALUControl = 2'b01; Branch = 0;
+    end
+    4'b0110 : begin
+        RegWrite = 1; ALUSrc = 1; ALUControl = 2'b10; Branch = 0;
+    end
+    4'b0111 : begin
+        RegWrite = 0; ALUSrc = 0; ALUControl = 2'b11; Branch = 1;
+    end
+endcase
+endmodule
+\end{lstlisting}
+\subsection{Testbench Code}
+\begin{lstlisting}
+`timescale 1ps/1ps
+`include "control_unit.sv"
+
+module control_unit_tb;
+logic[3:0] t_opcode;
+logic t_Branch, t_ALUSrc, t_RegWrite;
+logic [1:0] t_ALUControl;
+
+control_unit dut (t_opcode, t_Branch, t_ALUSrc, t_RegWrite, t_ALUControl);
+
+initial begin
+    $dumpfile("control_unit_tb.vcd"); 
+    $dumpvars(0, control_unit_tb);
+    // Stimulus generator
+    t_opcode = 4'b0000;
+    #20 t_opcode = 4'b0001;
+    #20 t_opcode = 4'b0010;
+    #20 t_opcode = 4'b0011;
+    #20 t_opcode = 4'b0100;
+    #20 t_opcode = 4'b0101;
+    #20 t_opcode = 4'b0110;
+    #20 t_opcode = 4'b0111;
+end
+
+initial begin // Response monitor
+    $monitor ("t = %3d t_opcode = %b, t_RegWrite = %d, t_ALUSrc = %d, ALUControl = %b, Branch = %d", $time, t_opcode, t_RegWrite, t_ALUSrc, t_ALUControl, t_Branch);
+end
+endmodule
+\end{lstlisting}
+
+\subsection{Simulations}
+The simulation result using Icarus Verilog is as following:
+\begin{Verbatim}
+    t =   0 t_opcode = 0000, t_RegWrite = 1, t_ALUSrc = 0, ALUControl = 00, Branch = 0
+    t =  20 t_opcode = 0001, t_RegWrite = 1, t_ALUSrc = 0, ALUControl = 01, Branch = 0
+    t =  40 t_opcode = 0010, t_RegWrite = 1, t_ALUSrc = 0, ALUControl = 10, Branch = 0
+    t =  60 t_opcode = 0011, t_RegWrite = 1, t_ALUSrc = 0, ALUControl = 11, Branch = 0
+    t =  80 t_opcode = 0100, t_RegWrite = 1, t_ALUSrc = 1, ALUControl = 00, Branch = 0
+    t = 100 t_opcode = 0101, t_RegWrite = 1, t_ALUSrc = 1, ALUControl = 01, Branch = 0
+    t = 120 t_opcode = 0110, t_RegWrite = 1, t_ALUSrc = 1, ALUControl = 10, Branch = 0
+    t = 140 t_opcode = 0111, t_RegWrite = 0, t_ALUSrc = 0, ALUControl = 11, Branch = 1
+\end{Verbatim}
+
+
+
+
 \end{document}
