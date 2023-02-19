@@ -21,12 +21,11 @@ initial begin
     #20 t_immediate = 8'b111;
     #20 t_PCSrc = 0;
     #50 t_reset = 1;
+    $finish; 
 end
 
 initial begin // Response monitor
     $monitor ("t = %3d clk = %d, t_immediate = %b t_PCSrc = %b t_reset = %d t_PC = %d", $time, clk, t_immediate, t_PCSrc, t_reset, t_PC);
-    #120;
-    $finish; 
 end
 
 endmodule
