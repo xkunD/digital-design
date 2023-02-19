@@ -1,5 +1,5 @@
 $date
-	Sun Feb 19 12:13:39 2023
+	Sun Feb 19 12:17:24 2023
 $end
 $version
 	Icarus Verilog
@@ -8,132 +8,116 @@ $timescale
 	1ps
 $end
 $scope module instruction_memory_pc_tb $end
-$var wire 8 ! t_pc [7:0] $end
-$var wire 24 " t_Instr [23:0] $end
-$var reg 1 # clk $end
-$var reg 1 $ t_PCSrc $end
-$var reg 8 % t_immediate [7:0] $end
-$var reg 1 & t_reset $end
+$var wire 24 ! t_Instr [23:0] $end
+$var reg 1 " clk $end
+$var reg 1 # t_PCSrc $end
+$var reg 8 $ t_immediate [7:0] $end
+$var reg 1 % t_reset $end
 $scope module dut $end
-$var wire 1 # CLK $end
-$var wire 1 $ PCSrc $end
-$var wire 8 ' immediate [7:0] $end
-$var wire 1 & reset $end
-$var wire 8 ( x_pc [7:0] $end
-$var wire 8 ) x_PC [7:0] $end
-$var wire 24 * Instr [23:0] $end
+$var wire 1 " CLK $end
+$var wire 1 # PCSrc $end
+$var wire 8 & immediate [7:0] $end
+$var wire 1 % reset $end
+$var wire 8 ' x_PC [7:0] $end
+$var wire 24 ( Instr [23:0] $end
 $scope module new_im $end
-$var wire 24 + Instr [23:0] $end
-$var wire 8 , PC [7:0] $end
+$var wire 24 ) Instr [23:0] $end
+$var wire 8 * PC [7:0] $end
 $upscope $end
 $scope module new_pc $end
-$var wire 1 # CLK $end
-$var wire 1 $ PCSrc $end
-$var wire 8 - immediate [7:0] $end
-$var wire 1 & reset $end
-$var reg 8 . PC [7:0] $end
+$var wire 1 " CLK $end
+$var wire 1 # PCSrc $end
+$var wire 8 + immediate [7:0] $end
+$var wire 1 % reset $end
+$var reg 8 , PC [7:0] $end
 $upscope $end
 $upscope $end
 $upscope $end
 $enddefinitions $end
 #0
 $dumpvars
-bx .
-b1 -
 bx ,
-bx +
+b1 +
 bx *
 bx )
 bx (
-b1 '
-1&
-b1 %
-0$
+bx '
+b1 &
+1%
+b1 $
 0#
-bx "
+0"
 bx !
 $end
 #10
-b11000100000000000100000 "
-b11000100000000000100000 *
-b11000100000000000100000 +
-b1 !
-b1 (
-b1 )
+b11000100000000000100000 !
+b11000100000000000100000 (
+b11000100000000000100000 )
+b1 '
+b1 *
 b1 ,
-b1 .
-1$
-0&
 1#
+0%
+1"
 #20
-0#
+0"
 #30
-b11011111111000000000001 "
-b11011111111000000000001 *
-b11011111111000000000001 +
-b101 !
-b101 (
-b101 )
-b101 ,
-b101 .
-1#
-b101 %
+b11011111111000000000001 !
+b11011111111000000000001 (
+b11011111111000000000001 )
 b101 '
-b101 -
+b101 *
+b101 ,
+1"
+b101 $
+b101 &
+b101 +
 #40
-0#
+0"
 #50
-b11000010000000000000001 "
-b11000010000000000000001 *
-b11000010000000000000001 +
-b0 !
-b0 (
-b0 )
+b11000010000000000000001 !
+b11000010000000000000001 (
+b11000010000000000000001 )
+b0 '
+b0 *
 b0 ,
-b0 .
-1#
-1&
-0$
+1"
+1%
+0#
 #60
-0#
+0"
 #70
-b11000100000000000100000 "
-b11000100000000000100000 *
-b11000100000000000100000 +
-b1 !
-b1 (
-b1 )
+b11000100000000000100000 !
+b11000100000000000100000 (
+b11000100000000000100000 )
+b1 '
+b1 *
 b1 ,
-b1 .
-1#
-0&
+1"
+0%
 #80
-0#
+0"
 #90
-b11011110000000000000000 "
-b11011110000000000000000 *
-b11011110000000000000000 +
-b10 !
-b10 (
-b10 )
+b11011110000000000000000 !
+b11011110000000000000000 (
+b11011110000000000000000 )
+b10 '
+b10 *
 b10 ,
-b10 .
-1#
-b111 %
-b111 '
-b111 -
+1"
+b111 $
+b111 &
+b111 +
 #100
-0#
+0"
 #110
-b11100000000000000000111 "
-b11100000000000000000111 *
-b11100000000000000000111 +
-b111 !
-b111 (
-b111 )
+b11100000000000000000111 !
+b11100000000000000000111 (
+b11100000000000000000111 )
+b111 '
+b111 *
 b111 ,
-b111 .
+1"
 1#
-1$
 #120
-0#
+0"

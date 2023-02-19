@@ -445,8 +445,77 @@ The simulation results using GTKWave is as following:\vspace{5pt}\\
 \newpage
 \section{Combining the ROM with program counter}
 \subsection{Module Code}
+\begin{lstlisting}
+`include "instruction_memory.sv"
+`include "pc.sv"
+
+module instruction_memory_pc (input logic[7:0] immediate,
+                            input logic PCSrc, CLK, reset,
+                            output logic [23:0] Instr);
+logic[7:0] x_PC;             
+
+pc new_pc (immediate, PCSrc, CLK, reset, x_PC);
+instruction_memory new_im(x_PC, Instr);
+endmodule
+\end{lstlisting}
+
+\subsection{Testbench Code}
+\begin{lstlisting}
+`timescale 1ps/1ps
+`include "instruction_memory_pc.sv"
+
+module instruction_memory_pc_tb;
+logic [7:0] t_immediate;
+logic t_PCSrc, clk, t_reset;
+logic [23:0] t_Instr;
 
 
+instruction_memory_pc dut(t_immediate, t_PCSrc, clk, t_reset, t_Instr);
 
+initial begin
+    clk = 0;
+    forever #10 clk = ~clk;
+end
+
+initial begin
+    $dumpfile("instruction_memory_pc_tb.vcd"); 
+    $dumpvars(0, instruction_memory_pc_tb);
+    // Stimulus generator
+    t_reset = 1; t_PCSrc = 0; t_immediate = 8'b01;
+    #10 t_reset = 0; t_PCSrc = 1;
+    #20 t_immediate = 8'b101;
+    #20 t_PCSrc = 0; t_reset = 1;
+    #20 t_reset = 0;
+    #20 t_immediate = 8'b111;
+    #20 t_PCSrc = 1;
+end
+
+initial begin // Response monitor
+    $monitor ("t = %3d clk = %d, t_immediate = %b t_PCSrc = %b t_reset = %d t_Instr = %h", $time, clk, t_immediate, t_PCSrc, t_reset, t_Instr);
+    #120;
+    $finish; 
+end
+
+endmodule
+\end{lstlisting}
+
+\subsection{Simulations}
+The simulation result using Icarus Verilog is as following: \\
+(t\_pc is temperarily outputted as an output to check the working of the system)
+\begin{Verbatim}
+t =   0 clk = 0, t_immediate = 00000001 t_PCSrc = 0 t_reset = 1 t_Instr =  xxxxxx t_pc = xx
+t =  10 clk = 1, t_immediate = 00000001 t_PCSrc = 1 t_reset = 0 t_Instr =  620020 t_pc = 01
+t =  20 clk = 0, t_immediate = 00000001 t_PCSrc = 1 t_reset = 0 t_Instr =  620020 t_pc = 01
+t =  30 clk = 1, t_immediate = 00000101 t_PCSrc = 1 t_reset = 0 t_Instr =  6ff001 t_pc = 05
+t =  40 clk = 0, t_immediate = 00000101 t_PCSrc = 1 t_reset = 0 t_Instr =  6ff001 t_pc = 05
+t =  50 clk = 1, t_immediate = 00000101 t_PCSrc = 0 t_reset = 1 t_Instr =  610001 t_pc = 00
+t =  60 clk = 0, t_immediate = 00000101 t_PCSrc = 0 t_reset = 1 t_Instr =  610001 t_pc = 00
+t =  70 clk = 1, t_immediate = 00000101 t_PCSrc = 0 t_reset = 0 t_Instr =  620020 t_pc = 01
+t =  80 clk = 0, t_immediate = 00000101 t_PCSrc = 0 t_reset = 0 t_Instr =  620020 t_pc = 01
+t =  90 clk = 1, t_immediate = 00000111 t_PCSrc = 0 t_reset = 0 t_Instr =  6f0000 t_pc = 02
+t = 100 clk = 0, t_immediate = 00000111 t_PCSrc = 0 t_reset = 0 t_Instr =  6f0000 t_pc = 02
+t = 110 clk = 1, t_immediate = 00000111 t_PCSrc = 1 t_reset = 0 t_Instr =  700007 t_pc = 07
+t = 120 clk = 0, t_immediate = 00000111 t_PCSrc = 1 t_reset = 0 t_Instr =  700007 t_pc = 07
+\end{Verbatim}
 
 \end{document}
